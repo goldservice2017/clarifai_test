@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Video Test</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  	<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+  	<link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet" type="text/css">
+  	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</head>
+<style type="text/css">
+	.snapshot_generator {
+	  display: block;
+	  height: 1px;
+	  left: 0;
+	  object-fit: contain;
+	  position: fixed;
+	  top: 0;
+	  width: 1px;
+	  z-index: -1;
+	}
+</style>
+<body>
+	<div class="container" style="background:white;">
+		<div class="row" style="border: solid 1px red">
+			<div class="col-sm-8" style="background:gray">
+				<video id="videoContent" class="snapshot_generator" width="100%" muted>
+					<!-- http://clips.vorwaerts-gmbh.de/VfE_html5.mp4
+					http://techslides.com/demos/sample-videos/small.mp4 -->
+				  	<!-- <source src="http://techslides.com/demos/sample-videos/small.mp4">
+				  	Your browser does not support the video tag. -->
+				</video>
+			</div>
+			<div class="col-sm-4" id="ResultArea" style="background:white">
+			</div>
+		</div>
+		<div class="row" id="message"></div>
+		<div class="row" style="padding-top:20px">
+			<div class="col-sm-6">
+				<input type="file" id="videoUpload" style="padding-up:20px" name="files[]" multiple=""/>                
+				<button id="ProcesVideo" style="font-size:20px; padding-up:20px">Process</button>
+			</div>
+		</div>
+		<div class="row" style="padding-top:20px; background:white">
+			<div class="col-sm-4">
+				<img id="img1" style="background:gray" width="100%"/>
+			</div>
+			<div class="col-sm-4">
+				<img id="img2" style="background:gray" width="100%"/>
+			</div>
+			<div class="col-sm-4">
+				<img id="img3" style="background:gray" width="100%"/>
+			</div>
+		</div>
+	</div>
+	<script src="./main.js"></script>
+</body>
+</html>

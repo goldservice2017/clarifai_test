@@ -1,0 +1,318 @@
+<!doctype html>
+<html>
+<head>
+  <title>Image recognition tester</title>
+\
+  <style type="text/css">
+    body.light-theme {
+      background: #EDEFF0;
+      color: #1D2938;
+    }
+    body {
+      font: 300 26px/1.4em Sofia,'Helvetica Neue',Helvetica,Arial,sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -webkit-overflow-scrolling: touch;
+    }
+    body, html {
+      width: 100%;
+    }
+    body, html, ul {
+      margin: 0;
+      padding: 0;
+    }
+    body * {
+      box-sizing: border-box;
+    }
+    .carousel-content {
+      height: calc(100% - 100px);
+      height: -o-calc(100% - 100px);
+      height: -moz-calc(100% - 100px);
+    }
+    .carousel-content {
+      right: 0;
+      bottom: 0;
+      bottom: 100px;
+      overflow: auto;
+    }
+    .carousel-content, .fill-parent {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    @media (min-width: 544px)
+    .carousel-content>div:first-child:not(.upload-progress-container) {
+      width: 100%;
+      height: 100%;
+    }
+    @media (min-width: 768px)
+    .image-explorer-container {
+      padding: 50px;
+    }
+    @media (min-width: 544px)
+    .image-explorer-container, .image-explorer-controls {
+      padding: 20px;
+    }
+    .image-explorer-container {
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex: 0 0 auto;
+      flex: 0 0 auto;
+    }
+    .light-theme .image-explorer-main {
+      background-image: linear-gradient(to right,rgba(0,0,0,0) 95%,rgba(0,0,0,.05)),linear-gradient(#FCFEFF,#FCFEFF);
+    }
+    @media (min-width: 544px)
+    .image-explorer-main {
+      height: 100%;
+      width: 66%;
+    }
+    .image-explorer-main {
+      position: relative;
+    }
+    @media (min-width: 544px)
+    .file-error-container, .image-view, .video-view {
+      margin: 20px 20px 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 105px;
+    }
+    .file-error-container, .image-view, .video-view {
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-pack: center;
+      justify-content: center;
+      -ms-flex-align: center;
+      align-items: center;
+    }
+    .image-view img, .image-view video, .video-view img, .video-view video {
+      display: block;
+      max-width: 100%;
+      max-height: 100%;
+      height: auto;
+      width: auto;
+      -ms-flex: 0 1 auto;
+      flex: 0 1 auto;
+    }
+    @media (min-width: 544px)
+    .image-explorer-container, .image-explorer-controls {
+      padding: 20px;
+    }
+    .image-explorer-controls {
+      display: -ms-flexbox;
+      display: flex;
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+    .image-explorer-arrow-ui {
+      width: 100%;
+      text-align: center;
+    }
+      .light-theme .left-arrow-button, .light-theme .right-arrow-button {
+      border: 2px solid rgba(28,40,56,.25);
+    }
+    @media (min-width: 768px)
+    .left-arrow-button, .right-arrow-button {
+      margin: 0 10px;
+      font-size: 35px;
+      width: 50px;
+      height: 50px;
+    }
+    @media (min-width: 544px)
+    .left-arrow-button, .right-arrow-button {
+      margin: 0 7px;
+      font-size: 25px;
+      width: 35px;
+      height: 35px;
+    }
+    .left-arrow-button, .right-arrow-button {
+      padding: 0;
+      border-radius: 50%;
+    }
+    .icon {
+      font-family: ElegantIcons;
+      speak: none;
+      font-style: normal;
+      font-weight: 400;
+      font-variant: normal;
+      text-transform: none;
+      line-height: 1;
+      -webkit-font-smoothing: antialiased;
+    }
+    button {
+      border: 0;
+      background: 0 0;
+      cursor: pointer;
+    }
+    .light-theme .left-arrow-button, .light-theme .right-arrow-button {
+      border: 2px solid rgba(28,40,56,.25);
+    }
+    @media (min-width: 768px)
+    .left-arrow-button, .right-arrow-button {
+      margin: 0 10px;
+      font-size: 35px;
+      width: 50px;
+      height: 50px;
+    }
+    .right-arrow-button .arrow-icon {
+      transform: rotate(180deg);
+    }
+    .light-theme .image-explorer-meta {
+      background-color: #FFF;
+      box-shadow: none;
+    }
+    @media (min-width: 544px)
+    .image-explorer-meta {
+      width: 34%;
+    }
+    .image-explorer-meta {
+      position: relative;
+      overflow-x: hidden;
+      z-index: 1;
+    }
+    .model-section {
+      padding: 20px 25px;
+    }
+    .loading-indicator {
+      position: relative;
+      display: none;
+      padding-top: 40px;
+      -ms-flex-align: center;
+      -ms-grid-row-align: center;
+      align-items: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+    }
+    .loading-icon {
+      pointer-events: none;
+      transform: scale(1.2,1.2);
+      opacity: 0;
+      visibility: hidden;
+      transition: .25s ease-out;
+      z-index: 10;
+    }   
+    .loading-circle {
+      fill: none;
+      stroke: #149df2;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-miterlimit: 10;
+      stroke-dasharray: 10px,120px;
+      transform-origin: 50% 50%;
+      animation: loading-circle 2s ease-in-out 1,rotate-circle 1.15s linear 1;
+      animation-fill-mode: forwards,forwards;
+    } 
+    .tooltip.hidden {
+      opacity: 0;
+    }
+    .tooltip {
+      z-index: 2;
+      position: absolute;
+      right: 100px;
+      bottom: 15px;
+      padding: 10px 18px;
+      color: #FFF;
+      background: #009CFF;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.5em;
+      border-radius: 3px;
+      transition: opacity .5s ease-out;
+    }
+    .tooltip p {
+      margin: 0;
+    }
+    .light-theme .carousel-strip {
+      background-color: #FFF;
+    }
+    @media (min-width: 768px)
+    .carousel-strip {
+      padding: 0 80px;
+      height: 100px;
+    }
+    .carousel-strip {
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-pack: justify;
+      justify-content: space-between;
+      -ms-flex-align: center;
+      align-items: center;
+      overflow: hidden;
+      box-shadow: -10px 0 10px 0 rgba(0,0,0,.25);
+    }
+    .light-theme .add-image-button-container, .light-theme .exit-uploader-button-container {
+      box-shadow: -10px 0 10px 0 rgba(0,0,0,.25);
+    }
+    @media (min-width: 768px)
+    .add-image-button-container, .exit-uploader-button-container {
+      width: 100px;
+    }
+    .add-image-button-container, .exit-uploader-button-container {
+      display: -ms-flexbox;
+      display: flex;
+      height: 100%;
+      -ms-flex-pack: center;
+      justify-content: center;
+      -ms-flex-align: center;
+      align-items: center;
+    }
+  </style>
+</head>
+<body class="light-theme">
+    <div class="container" id="js-content">
+        <div class="carousel-container" data-reactid=".0">
+            <div class="carousel-content" data-reactid=".0.0">
+                <div class="image-explorer-container" data-reactid=".0.0.0">
+                    <div class="image-explorer-main" data-reactid=".0.0.0.0">
+                        <div class="image-view" data-reactid=".0.0.0.0.0">
+                          <video id="image-view-content" controls>
+                            <source src="mov_bbb.mp4" type="video/mp4">
+                            Your browser does not support HTML5 video.
+                          </video>
+                        </div>
+                        <!-- <div class="image-explorer-controls" data-reactid=".0.0.0.0.1">
+                            <div class="image-explorer-arrow-ui" data-reactid=".0.0.0.0.1.0">
+                              <button class="icon left-arrow-button" id="ie-left-arrow" data-reactid=".0.0.0.0.1.0.0">
+                                <svg class="arrow-icon" width="18" height="14" viewBox="1 3 18 14" data-reactid=".0.0.0.0.1.0.0.0">
+                                <path d="M1.444 10l6.343 6.343c.39.39 1.024.39 1.414 0 .392-.39.392-1.023 0-1.414L5.273 11h11.98c.552 0 1-.448 1-1s-.448-1-1-1H5.272l3.93-3.93c.39-.39.39-1.023 0-1.413-.39-.39-1.024-.39-1.415 0L1.444 10z" fill="#1D2938" data-reactid=".0.0.0.0.1.0.0.0.0">
+                                </path>
+                                </svg>
+                              </button>
+                              <button class="icon right-arrow-button" id="ie-right-arrow" data-reactid=".0.0.0.0.1.0.1">
+                                <svg class="arrow-icon" width="18" height="14" viewBox="1 3 18 14" data-reactid=".0.0.0.0.1.0.1.0">
+                                  <path d="M1.444 10l6.343 6.343c.39.39 1.024.39 1.414 0 .392-.39.392-1.023 0-1.414L5.273 11h11.98c.552 0 1-.448 1-1s-.448-1-1-1H5.272l3.93-3.93c.39-.39.39-1.023 0-1.413-.39-.39-1.024-.39-1.415 0L1.444 10z" fill="#1D2938" data-reactid=".0.0.0.0.1.0.1.0.0">
+                                  </path>
+                                </svg>
+                              </button>
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="image-explorer-meta" data-reactid=".0.0.0.1">
+                        <div class="image-explorer-model-container" data-reactid=".0.0.0.1.0">
+                            <section class="model-section" data-reactid=".0.0.0.1.0.0">
+                                <p data-reactid=".0.0.0.1.0.0.0">There was an error.</p>
+                            </section>
+                        </div>
+                        <div class="loading-indicator" data-reactid=".0.0.0.1.1"><svg class="loading-icon" width="50" height="50" viewBox="0 0 50 50" data-reactid=".0.0.0.1.1.0"><circle class="loading-circle" cx="25" cy="25" r="15" data-reactid=".0.0.0.1.1.0.0"></circle></svg></div>
+                    </div>
+                </div>
+                <div class="tooltip hidden" id="starter-tooltip" data-reactid=".0.0.1" style="display: visible;">
+                    <p data-reactid=".0.0.1.0">Click here to add your own images or videos.</p>
+                    <p data-reactid=".0.0.1.1">Or drag and drop your files onto this window.</p>
+                </div>
+            </div>
+            <div class="carousel-strip" data-reactid=".0.1">                
+                <div class="add-image-button-container" data-reactid=".0.1.1"><button class="icon icon-add add-button" data-reactid=".0.1.1.0"></button></div>
+            </div>
+        </div>
+    </div>    
+    <script src="./main.js"></script>
+</body>
+</html>

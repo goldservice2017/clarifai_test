@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+		<link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+		<script src="http://code.jquery.com/jquery.js"></script>
+		<script src="https://rawgithub.com/caolan/async/master/lib/async.js"></script>
+		<script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/async/2.0.0-rc.2/async.js"></script>
+		<script>
+			window.URL = window.URL || window.webkitURL;
+			 
+			function handleFiles(files) {
+				async.eachSeries(files, do_video);
+			}
+			function do_video(file, callback) {
+				var url = window.URL.createObjectURL(file);
+				screenshotOfFile(url, function (elem) {
+					$('<li class="span4"></li>').appendTo('.thumbnails').append(elem);
+					callback();
+				}, callback);
+			}
+			function screenshotOfFile(url, callback, error) {
+				var video = $("video")[0];
+				video.addEventListener("loadeddata", function () {
+					this.removeEventListener("loadeddata", arguments.callee);
+					this.removeEventListener("error", arguments.callee);
+					var elem = screenshot(this);
+					callback(elem);
+				});
+				video.addEventListener("error", function () {
+					this.removeEventListener("error", arguments.callee);
+					console.log(this.error);
+					this.removeEventListener("loadeddata", arguments.callee);
+					this.src = '';
+					error();
+				});
+				video.src = url;
+			}
+			function screenshot(video) {
+				var canvas = document.createElement("canvas");
+				canvas.height = video.videoHeight;
+				canvas.width = video.videoWidth;
+				var ctx = canvas.getContext("2d");
+				ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+				canvas.style.width = 'inherit';
+				canvas.style.height = 'inherit';
+				return canvas;
+			}
+		</script>
+	</head>
+	<body>
+		<video id="player"></video>
+		<input type="file" id="fileElem" multiple onchange="handleFiles(this.files)">
+		<ul class="thumbnails"> </ul>
+	</body>
+</html>
