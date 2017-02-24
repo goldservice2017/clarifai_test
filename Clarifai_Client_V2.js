@@ -252,6 +252,7 @@ function processResponse(bestColor, resultHandler) {
 	}
 }
 Clarifai.prototype._colorDetect = function(urls, resultHandler, retry) {
+
 	if( this._throttled ) {
 		// the host has throttled us, so there's no point in sending the request
 		// just immediately return the throttled status
@@ -325,6 +326,7 @@ Clarifai.prototype._colorDetect = function(urls, resultHandler, retry) {
     		var top_colors = listed_color.sort(compareNumbersByMax);
     		var colors = top_colors.slice(0,3);
     		processResponse(colors, resultHandler);
+    		return;
 
 
     		var temp1 = listed_color;
@@ -460,7 +462,10 @@ Clarifai.prototype._colorDetect = function(urls, resultHandler, retry) {
     	}    	
     },
     function(err) {
-      if( typeof err["code"] === "string" && err["code"] === "ECONNRESET")
+    	// console.log("Error :", err);
+    	console.log("Error :", err.data.outputs[0]);
+    	console.log("Color...");
+      	if( typeof err["code"] === "string" && err["code"] === "ECONNRESET")
 			err =  {"status_code": "TIMEOUT", "status_msg": "Response not received" };
 
 		resultHandler( err, null ); 
