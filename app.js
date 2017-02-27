@@ -103,6 +103,7 @@ app.all("/videoTest", function(req, resp) {
   }
 
   Clarifai.colorDetect(urls,commonResultHandler);
+  // ClarifaiV1.colorURL(urls,"Color Detect",commonResultHandler);
 });
 
 server.listen(port, function() {

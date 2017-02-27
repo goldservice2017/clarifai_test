@@ -101,9 +101,18 @@ function getThumbnailImage(){
 function imageDropped(evt) {
   var urls = [];
   if (snapshot1 || snapshot2 || snapshot3 ) {
-    if (snapshot1) urls.push(snapshot1);
-    if (snapshot2) urls.push(snapshot2);
-    if (snapshot3) urls.push(snapshot3);
+    if (snapshot1) {
+      var str_snapshots1 = snapshot1.split(",");
+      urls.push(str_snapshots1[1]);
+    } 
+    if (snapshot2) {
+      var str_snapshots2 = snapshot2.split(",");
+      urls.push(str_snapshots2[1]);
+    }
+    if (snapshot3) {
+      var str_snapshots3 = snapshot3.split(",");
+      urls.push(str_snapshots3[1]);
+    }
   }
   $.ajax({
     type: "POST",
@@ -116,10 +125,11 @@ function imageDropped(evt) {
       console.log(data);
       var tags = "";
       for (var i = 0; i < data.length; i++) {
-        tags += data[i].hex;
+        var item = data[i];
+        tags += item.item.raw_hex;
         if (i != data.length - 1) tags += ", ";
       }
-      tags += data.hex;
+      // tags += data.hex;
       $(dropArea).html(tags);
     },
     error: function() {

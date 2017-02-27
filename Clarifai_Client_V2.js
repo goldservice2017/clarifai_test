@@ -260,7 +260,7 @@ Clarifai.prototype._colorDetect = function(urls, resultHandler, retry) {
 				    'status_msg': 'Request refused. Service is throttled.'} , null );
 	} 
 	var str_req = '"' + urls[0] + '"';		
-	app.models.predict(ClarifaiAPI.COLOR_MODEL, {base64: urls[0]}).then(
+	app.models.predict(ClarifaiAPI.COLOR_MODEL, {base64: urls}).then(
     function(response) {
     	console.log("Success!");
     	console.log("Response is",response);
@@ -313,18 +313,23 @@ Clarifai.prototype._colorDetect = function(urls, resultHandler, retry) {
     				}
     			}
     		} else if (colors.length == 1) {
+    			console("Color Length1:");
     			var itemColor = colors[0];
     			var sortedColors = itemColor.data.colors.sort(compareNumbersByMax);
     			var bestColor = sortedColors[0];
     			var itemC = {item:bestColor, count: 1, max_value: bestColor.value};
-    			processResponse(itemC, resultHandler);
+    			var items = [itemC];
+    			processResponse(items, resultHandler);
+    			return;
     		} else {
     			resultHandler("There is no any detected color.",null);
     		}
     		console.log("listed_color", listed_color);
 
     		var top_colors = listed_color.sort(compareNumbersByMax);
+    		console.log("Top Colors:", top_colors);
     		var colors = top_colors.slice(0,3);
+    		console.log("Colors:", colors);
     		processResponse(colors, resultHandler);
     		return;
 
