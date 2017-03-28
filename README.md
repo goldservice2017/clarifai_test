@@ -57,7 +57,11 @@ app.models.predict("eeed0b6733a644cea07cf4c60f87ebb7", "https://samples.clarifai
       // there was an error
     }
   );
+  
+  
 • Response:
+
+
 {
   "status": {
     "code": 10000,
