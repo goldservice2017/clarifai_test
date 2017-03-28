@@ -33,17 +33,22 @@ http://localhost:5000/
 
 Basic Code Snippets
 - Create Clarifai instance:
+
 // Require the client
+
 var Clarifai = require('clarifai');
 
 // instantiate a new Clarifai app passing in your clientId and clientSecret
+
 var app = new Clarifai.App(
   '{clientId}',
   '{clientSecret}'
 );
 
 - Color API
+
 • Request:
+
 app.models.predict("eeed0b6733a644cea07cf4c60f87ebb7", "https://samples.clarifai.com/metro-north.jpg").then(
     function(response) {
       // do something with response
