@@ -1,20 +1,35 @@
 # clarifai_test
 Introduction
+
 This is an basic video recognition implementation with Clarifai(https://clarifai.com/).
+
 This test is providing following API functions:
+
 • Color detecting from inputed video or image
+
 • Thumbnail capturing from inputed video or image
+
 • Video tag detecting from inputed video or image
 
+
 Installation
+
 • Clone this repository on your machine
+
 git clone https://github.com/ChongChan2017/clarifai_test.git
+
 • Install Node packages
+
 npm install
+
 • Run app.js
+
 node app.js
+
 • Test tutorial on the browser
+
 http://localhost:5000/
+
 
 Basic Code Snippets
 - Create Clarifai instance:
@@ -148,4 +163,3 @@ app.models.predict("eeed0b6733a644cea07cf4c60f87ebb7", "https://samples.clarifai
     }
   ]
 }
-- Tag Detection:
